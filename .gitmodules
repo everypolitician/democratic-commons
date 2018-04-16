@@ -1,0 +1,18 @@
+[submodule "canada"]
+	path = canada
+	url = git@github.com:everypolitician/proto-commons-canada.git
+[submodule "italy"]
+	path = italy
+	url = git@github.com:everypolitician/proto-commons-italy.git
+[submodule "south-korea"]
+	path = south-korea
+	url = git@github.com:everypolitician/proto-commons-south-korea.git
+[submodule "taiwan"]
+	path = taiwan
+	url = git@github.com:everypolitician/proto-commons-taiwan.git
+[submodule "colombia"]
+	path = colombia
+	url = git@github.com:everypolitician/proto-commons-colombia.git
+[submodule "paraguay"]
+	path = paraguay
+	url = git@github.com:everypolitician/proto-commons-paraguay.git

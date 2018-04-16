@@ -20,3 +20,19 @@ the submodules with:
 To add a new country you can do:
 
     git submodule add git@github.com:everypolitician/proto-commons-[country].git [country]
+
+## Running commands for each country
+
+You can run commands in each country using `git submodule
+foreach`. For example, to run `bundle install` in each
+repository:
+
+    git submodule foreach 'bundle install'
+
+To update each repository from Wikidata:
+
+    git submodule foreach 'bundle exec build update'
+
+To rebuild the fetched data in each repository:
+
+    git submodule foreach 'bundle exec build build'

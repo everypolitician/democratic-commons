@@ -17,9 +17,13 @@ the submodules with:
 
 ## Adding new countries
 
-To add a new country you can do:
+To add a new country, make sure this country repository exists
+under the
+[everypolitician organization](https://github.com/everypolitician/)
+with the topics `commons-data` and `country-code-XX` where XX is
+the 2 leter ISO country code. Then run:
 
-    git submodule add git@github.com:everypolitician/proto-commons-[country].git [country]
+    ./add-repos-from-github.py
 
 ## Running commands for each country
 

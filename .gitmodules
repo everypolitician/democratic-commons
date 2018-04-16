@@ -13,3 +13,6 @@
 [submodule "py"]
 	path = py
 	url = git@github.com:everypolitician/proto-commons-paraguay.git
+[submodule "co"]
+	path = co
+	url = git@github.com:everypolitician/proto-commons-colombia.git

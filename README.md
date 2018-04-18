@@ -40,3 +40,7 @@ To update each repository from Wikidata:
 To rebuild the fetched data in each repository:
 
     git submodule foreach 'bundle exec build build'
+
+To create and push a branch for each repository with new data
+
+    git submodule foreach ../update-all.sh BRANCHNAME

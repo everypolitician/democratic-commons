@@ -21,10 +21,12 @@ git add legislative/index-warnings.txt
 git commit -a -m "Refresh legislative index from Wikidata"
 
 bundle exec build update
+git add legislative/* executive/*
 git commit -a -m "Refresh data from Wikidata"
 
 bundle exec build build > build_output.txt
 git add build_output.txt
+git add legislative/* executive/*
 git commit -a -m "Rebuild using new Wikidata data"
 
 git push -u origin $BRANCH --force-with-lease

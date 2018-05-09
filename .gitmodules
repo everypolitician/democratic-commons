@@ -16,3 +16,9 @@
 [submodule "co"]
 	path = co
 	url = git@github.com:everypolitician/proto-commons-colombia.git
+[submodule "br"]
+	path = br
+	url = git@github.com:everypolitician/proto-commons-brazil.git
+[submodule "mx"]
+	path = mx
+	url = git@github.com:everypolitician/proto-commons-mexico.git

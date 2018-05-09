@@ -12,6 +12,14 @@ git checkout -b $BRANCH
 bundle update
 git commit Gemfile.lock -m 'Update Gemfile.lock to most recent commons-builder'
 
+bundle exec generate_executive_index > executive/index-warnings.txt
+git add executive/index-warnings.txt
+git commit -a -m "Refresh executive index from Wikidata"
+
+bundle exec generate_legislative_index > legislative/index-warnings.txt
+git add legislative/index-warnings.txt
+git commit -a -m "Refresh legislative index from Wikidata"
+
 bundle exec build update
 git commit -a -m "Refresh data from Wikidata"
 

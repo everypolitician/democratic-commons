@@ -6,6 +6,7 @@ git fetch origin
 git reset --hard
 git checkout origin/master
 git reset --hard
+git branch -D $BRANCH
 git checkout -b $BRANCH
 
 bundle update

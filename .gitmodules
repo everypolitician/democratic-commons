@@ -22,3 +22,6 @@
 [submodule "mx"]
 	path = mx
 	url = git@github.com:everypolitician/proto-commons-mexico.git
+[submodule "ee"]
+	path = ee
+	url = git@github.com:everypolitician/proto-commons-estonia.git

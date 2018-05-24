@@ -25,6 +25,19 @@ the 2 leter ISO country code. Then run:
 
     ./add-repos-from-github.py
 
+## Updating all countries with the latest remote changes
+
+This super-project isn't updated automatically in any way at the
+moment, so the committed version of each submodule will get
+out-of-date fast. If you want to update all submodules to the
+latest versions from their respective remotes, you can do:
+
+    git submodule update --init --remote
+
+To commit those changes you still need to do `git add` for the
+submodules with new commits shown in `git status`, then commit
+and push them.
+
 ## Running commands for each country
 
 You can run commands in each country using `git submodule

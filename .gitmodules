@@ -25,3 +25,6 @@
 [submodule "ee"]
 	path = ee
 	url = git@github.com:everypolitician/proto-commons-estonia.git
+[submodule "hk"]
+	path = hk
+	url = git@github.com:everypolitician/proto-commons-hong-kong.git

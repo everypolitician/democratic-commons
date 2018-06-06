@@ -31,3 +31,6 @@
 [submodule "cl"]
 	path = cl
 	url = git@github.com:everypolitician/proto-commons-chile.git
+[submodule "ie"]
+	path = ie
+	url = git@github.com:everypolitician/proto-commons-ireland.git

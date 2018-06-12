@@ -56,4 +56,4 @@ To rebuild the fetched data in each repository:
 
 To create and push a branch for each repository with new data
 
-    git submodule foreach ../update-all.sh BRANCHNAME
+    git submodule foreach ../refresh-data.sh BRANCHNAME

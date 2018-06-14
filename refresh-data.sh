@@ -27,13 +27,13 @@ if [ "$(git status Gemfile.lock --porcelain)" ]; then
 fi
 
 bundle exec generate_executive_index > executive/index-warnings.txt
-git add executive/index-warnings.txt
+git add executive/index-warnings.txt executive/index-query-used.rq
 if [ "$(git status executive/index* --porcelain)" ]; then
   git commit -a -m "Refresh executive index from Wikidata"
 fi
 
 bundle exec generate_legislative_index > legislative/index-warnings.txt
-git add legislative/index-warnings.txt
+git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq
 if [ "$(git status legislative/index* --porcelain)" ]; then
   git commit -a -m "Refresh legislative index from Wikidata"
 fi

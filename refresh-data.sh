@@ -10,24 +10,20 @@
 
 BRANCH=$1
 
-if [ "$BRANCH" == "" ]; then
-  echo "Specify a branch name as an argument"
-  exit 1
-fi
-
 if [ "$BRANCH" == "master" ]; then
   echo "Doing this to master would be a terrible idea"
   exit 1
 fi
 
-git fetch origin
-git reset --hard
-git checkout origin/master
-git reset --hard
-if git rev-parse --verify $BRANCH ; then
-    git branch -D $BRANCH
+if [ "$(git status --porcelain)" ]; then
+   echo "git status must be clean in $(pwd)"
+   exit 1
 fi
-git checkout -b $BRANCH
+
+if [ "$BRANCH" ]; then
+  git fetch origin
+  git checkout --no-track -B "$BRANCH" origin/master
+fi
 
 bundle update
 if [ "$(git status Gemfile.lock --porcelain)" ]; then

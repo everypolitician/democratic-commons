@@ -1,5 +1,13 @@
 #!/bin/bash -e
 
+# This script operates in two modes. With a branch specified as an argument, it
+# blats any existing branch by that name and refreshes the data relative to
+# origin/master, which means it can be called multiple times until the data
+# look right. Without a branch specified, it appends commits onto the current
+# HEAD.
+#
+# In either mode, the git status must be clean before starting.
+
 BRANCH=$1
 
 if [ "$BRANCH" == "" ]; then

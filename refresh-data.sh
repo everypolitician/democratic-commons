@@ -63,4 +63,10 @@ if [ "$(git status legislative executive build_output.txt --porcelain)" ]; then
   git commit -a -m "Rebuild using new Wikidata data"
 fi
 
-#git push -u origin $BRANCH --force-with-lease
+if [ "$BRANCH" ]; then
+  if git rev-parse --verify $BRANCH@{u} > /dev/null 2>&1; then
+    git push origin $BRANCH --force-with-lease
+  else
+    git push -u origin $BRANCH
+  fi
+fi

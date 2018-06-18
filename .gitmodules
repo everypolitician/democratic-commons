@@ -34,3 +34,21 @@
 [submodule "ie"]
 	path = ie
 	url = git@github.com:everypolitician/proto-commons-ireland.git
+[submodule "ad"]
+	path = ad
+	url = git@github.com:everypolitician/proto-commons-andorra.git
+[submodule "cy"]
+	path = cy
+	url = git@github.com:everypolitician/proto-commons-cyprus.git
+[submodule "pe"]
+	path = pe
+	url = git@github.com:everypolitician/proto-commons-peru.git
+[submodule "pt"]
+	path = pt
+	url = git@github.com:everypolitician/proto-commons-portugal.git
+[submodule "ae"]
+	path = ae
+	url = git@github.com:everypolitician/proto-commons-united-arab-emirates.git
+[submodule "gb"]
+	path = gb
+	url = git@github.com:everypolitician/proto-commons-united-kingdom.git

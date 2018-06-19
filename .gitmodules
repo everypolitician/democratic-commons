@@ -52,3 +52,6 @@
 [submodule "gb"]
 	path = gb
 	url = git@github.com:everypolitician/proto-commons-united-kingdom.git
+[submodule "in"]
+	path = in
+	url = git@github.com:everypolitician/proto-commons-india.git

@@ -55,3 +55,9 @@
 [submodule "in"]
 	path = in
 	url = git@github.com:everypolitician/proto-commons-india.git
+[submodule "cr"]
+	path = cr
+	url = git@github.com:everypolitician/proto-commons-costa-rica.git
+[submodule "ng"]
+	path = ng
+	url = git@github.com:everypolitician/proto-commons-nigeria.git

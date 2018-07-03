@@ -20,6 +20,12 @@ if [ "$(git status --porcelain)" ]; then
    exit 1
 fi
 
+if ! command -v jq
+then
+    echo "jq was not found on your PATH"
+    exit 1
+fi
+
 if [ "$BRANCH" ]; then
   git fetch origin
   git checkout --no-track -B "$BRANCH" origin/master
@@ -30,16 +36,22 @@ if [ "$(git status Gemfile.lock --porcelain)" ]; then
   git commit Gemfile.lock -m 'Update Gemfile.lock to most recent commons-builder'
 fi
 
-bundle exec generate_executive_index > executive/index-warnings.txt
-git add executive/index-warnings.txt executive/index-query-used.rq
-if [ "$(git status executive/index* --porcelain)" ]; then
-  git commit -a -m "Refresh executive index from Wikidata"
+if ! jq -e '.hand_maintained_files | contains(["executive/index.json"])' < config.json 2>&1 > /dev/null
+then
+  bundle exec generate_executive_index > executive/index-warnings.txt
+  git add executive/index-warnings.txt executive/index-query-used.rq
+  if [ "$(git status executive/index* --porcelain)" ]; then
+    git commit -a -m "Refresh executive index from Wikidata"
+  fi
 fi
 
-bundle exec generate_legislative_index > legislative/index-warnings.txt
-git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq
-if [ "$(git status legislative/index* --porcelain)" ]; then
-  git commit -a -m "Refresh legislative index from Wikidata"
+if ! jq -e '.hand_maintained_files | contains(["legislative/index.json"])' < config.json 2>&1 > /dev/null
+then
+  bundle exec generate_legislative_index > legislative/index-warnings.txt
+  git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq
+  if [ "$(git status legislative/index* --porcelain)" ]; then
+    git commit -a -m "Refresh legislative index from Wikidata"
+  fi
 fi
 
 rm -f {legislative,executive}/*/*/{query-results.json,query-used.rq}

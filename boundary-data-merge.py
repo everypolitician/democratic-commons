@@ -124,3 +124,6 @@ if boundaries_index_changed:
         json.dump(boundaries_index, f, indent=2, ensure_ascii=False)
         f.write('\n')
 
+if id_mapping:
+    print("Rewrote {0} Wikidata ID{1}".format(len(id_mapping),
+                                              's' if len(id_mapping) > 1 else ''))

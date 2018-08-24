@@ -29,13 +29,16 @@ directories = {entry['directory'] for entry in boundaries_index}
 for directory in directories:
     csv_fn = os.path.join(boundaries_dir, directory, directory + '.csv')
     with open(csv_fn, newline='') as f:
-        data = csv.DictReader(f)
-        wikidata_ids |= {row['WIKIDATA'] for row in data}
+        reader = csv.DictReader(f)
+        # Some CSVs might not yet have been reconciled into Wikidata.
+        if 'WIKIDATA' not in reader.fieldnames:
+            continue
+        wikidata_ids |= {row['WIKIDATA'] for row in reader}
         newlines[csv_fn] = f.newlines
 
 # And from associated positions in the boundary index
 for entry in boundaries_index:
-    for association in entry['associations']:
+    for association in entry.get('associations', ()):
         wikidata_ids.add(association['position_item_id'])
 
 # Query for any replacement IDs
@@ -68,6 +71,8 @@ for directory in directories:
                      # unexpected quoting unnecessarily.
     with open(csv_fn, newline='') as old_f:
         reader = csv.DictReader(open(csv_fn))
+        if 'WIKIDATA' not in reader.fieldnames:
+            continue
         with tempfile.NamedTemporaryFile('w', delete=False) as new_f:
             writer = csv.DictWriter(new_f, reader.fieldnames, lineterminator=newlines[csv_fn])
             writer.writeheader()
@@ -85,7 +90,7 @@ for directory in directories:
 # unless we have substantive changes to make.
 boundaries_index_changed = False
 for entry in boundaries_index:
-    for association in entry['associations']:
+    for association in entry.get('associations', ()):
         if association['position_item_id'] in id_mapping:
             association['position_item_id'] = id_mapping[association['position_item_id']]
             boundaries_index_changed = True

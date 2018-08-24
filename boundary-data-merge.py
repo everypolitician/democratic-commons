@@ -6,6 +6,7 @@ import os
 import shutil
 import tempfile
 
+import fiona
 import requests
 
 wikidata_ids = set()
@@ -67,8 +68,10 @@ id_mapping = {b['old']['value'].rsplit('/', 1)[1]: b['new']['value'].rsplit('/',
 # Rewrite Wikidata IDs in CSV files
 for directory in directories:
     csv_fn = os.path.join(boundaries_dir, directory, directory + '.csv')
+    shp_fn = os.path.join(boundaries_dir, directory, directory + '.shp')
     changed = False  # To keep track of substantive changes, to not rewrite
                      # unexpected quoting unnecessarily.
+
     with open(csv_fn, newline='') as old_f:
         reader = csv.DictReader(open(csv_fn))
         if 'WIKIDATA' not in reader.fieldnames:
@@ -85,6 +88,27 @@ for directory in directories:
         shutil.move(new_f.name, csv_fn)
     else:
         os.unlink(new_f.name)
+        continue  # No need to attempt to rewrite shapefile if nothing changed in the CSV
+
+    if not os.path.isfile(shp_fn):
+        continue  # Sometimes we have CSVs without shapefiles
+
+    print("Rewriting shapefile: " + shp_fn)
+    with fiona.open(shp_fn, 'r') as old_shp:
+        meta = old_shp.meta
+        with fiona.open(os.path.join(boundaries_dir, directory, 'new.' + directory + '.shp'),
+                        'w', encoding='utf-8', **meta) as new_shp:
+            for feature in old_shp:
+                if 'WIKIDATA' in feature['properties']:
+                    feature['properties']['WIKIDATA'] = id_mapping.get(feature['properties']['WIKIDATA'],
+                                                                       feature['properties']['WIKIDATA'])
+                new_shp.write(feature)
+        # Move the new shapefile files into place
+        for fn in os.listdir(os.path.join(boundaries_dir, directory)):
+            if fn.startswith('new.'):
+                os.rename(os.path.join(boundaries_dir, directory, fn),
+                          os.path.join(boundaries_dir, directory, fn[4:]))
+
 
 # Rewrite associated position IDs in boundary index, but don't rewrite the file
 # unless we have substantive changes to make.

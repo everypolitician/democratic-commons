@@ -56,7 +56,7 @@ fi
 
 rm -f {legislative,executive}/*/*/{query-results.json,query-used.rq}
 bundle exec build update
-git add legislative/* executive/*
+git add legislative/* executive/* boundaries/position-data-query*
 if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then
   git rm $(git status legislative executive --porcelain | grep '^ D' | colrm 1 3)
 fi
@@ -67,7 +67,7 @@ fi
 rm -f {legislative,executive}/*/*/popolo-m17n.json
 bundle exec build build > build_output.txt
 git add build_output.txt
-git add legislative/* executive/*
+git add legislative/* executive/* boundaries/position-data.json
 if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then
   git rm $(git status legislative executive --porcelain | grep '^ D' | colrm 1 3)
 fi

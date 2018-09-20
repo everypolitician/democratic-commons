@@ -54,6 +54,11 @@ then
   fi
 fi
 
+../boundary-data-merge.py
+if [ "$(git status boundaries --porcelain)" ]; then
+  git commit -a -m "Update Wikidata IDs for merged items in boundary data"
+fi
+
 rm -f {legislative,executive}/*/*/{query-results.json,query-used.rq}
 bundle exec build update
 git add legislative/* executive/* boundaries/position-data-query*

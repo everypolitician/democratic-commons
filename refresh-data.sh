@@ -26,6 +26,12 @@ then
     exit 1
 fi
 
+if [ -d boundaries/build ]; then
+  BOUNDARIES=boundaries/build
+else
+  BOUNDARIES=boundaries
+fi
+
 if [ "$BRANCH" ]; then
   git fetch origin
   git checkout --no-track -B "$BRANCH" origin/master
@@ -55,28 +61,28 @@ then
 fi
 
 ../boundary-data-merge.py
-if [ "$(git status boundaries --porcelain)" ]; then
+if [ "$(git status $BOUNDARIES --porcelain)" ]; then
   git commit -a -m "Update Wikidata IDs for merged items in boundary data"
 fi
 
 rm -f {legislative,executive}/*/*/{query-results.json,query-used.rq}
 bundle exec build update
-git add legislative/* executive/* boundaries/position-data-query*
+git add legislative/* executive/* $BOUNDARIES/position-data-query*
 if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then
   git rm $(git status legislative executive --porcelain | grep '^ D' | colrm 1 3)
 fi
-if [ "$(git status legislative executive --porcelain)" ]; then
+if [ "$(git status legislative executive $BOUNDARIES/position-data-query* --porcelain)" ]; then
   git commit -a -m "Refresh data from Wikidata"
 fi
 
 rm -f {legislative,executive}/*/*/popolo-m17n.json
 bundle exec build build > build_output.txt
 git add build_output.txt
-git add legislative/* executive/* boundaries/position-data.json
+git add legislative/* executive/* $BOUNDARIES/position-data.json
 if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then
   git rm $(git status legislative executive --porcelain | grep '^ D' | colrm 1 3)
 fi
-if [ "$(git status legislative executive build_output.txt --porcelain)" ]; then
+if [ "$(git status legislative executive $BOUNDARIES/position-data.json build_output.txt --porcelain)" ]; then
   git commit -a -m "Rebuild using new Wikidata data"
 fi
 

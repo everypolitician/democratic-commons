@@ -61,3 +61,36 @@
 [submodule "ng"]
 	path = ng
 	url = git@github.com:everypolitician/proto-commons-nigeria.git
+[submodule "ar"]
+	path = ar
+	url = git@github.com:everypolitician/proto-commons-argentina.git
+[submodule "au"]
+	path = au
+	url = git@github.com:everypolitician/proto-commons-australia.git
+[submodule "bd"]
+	path = bd
+	url = git@github.com:everypolitician/proto-commons-bangladesh.git
+[submodule "be"]
+	path = be
+	url = git@github.com:everypolitician/proto-commons-belgium.git
+[submodule "fr"]
+	path = fr
+	url = git@github.com:everypolitician/proto-commons-france.git
+[submodule "de"]
+	path = de
+	url = git@github.com:everypolitician/proto-commons-germany.git
+[submodule "jp"]
+	path = jp
+	url = git@github.com:everypolitician/proto-commons-japan.git
+[submodule "ke"]
+	path = ke
+	url = git@github.com:everypolitician/proto-commons-kenya.git
+[submodule "pk"]
+	path = pk
+	url = git@github.com:everypolitician/proto-commons-pakistan.git
+[submodule "pl"]
+	path = pl
+	url = git@github.com:everypolitician/proto-commons-poland.git
+[submodule "za"]
+	path = za
+	url = git@github.com:everypolitician/proto-commons-south-africa.git

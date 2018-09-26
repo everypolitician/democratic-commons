@@ -55,7 +55,7 @@ while true; do
     PRE_POST_UPDATE=" (post-\`bundle update\`)"
   fi
 
-  if ! jq -e '.hand_maintained_files | contains(["executive/index.json"])' < config.json > /dev/null
+  if ! jq -e '.hand_maintained_files // [] | contains(["executive/index.json"])' < config.json > /dev/null
   then
     bundle exec generate_executive_index > executive/index-warnings.txt
     git add executive/index-warnings.txt executive/index-query-used.rq
@@ -64,7 +64,7 @@ while true; do
     fi
   fi
   
-  if ! jq -e '.hand_maintained_files | contains(["legislative/index.json"])' < config.json > /dev/null
+  if ! jq -e '.hand_maintained_files // [] | contains(["legislative/index.json"])' < config.json > /dev/null
   then
     bundle exec generate_legislative_index > legislative/index-warnings.txt
     git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq

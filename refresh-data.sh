@@ -90,7 +90,10 @@ while true; do
   fi
   
   rm -f {legislative,executive}/*/*/popolo-m17n.json
-  bundle exec build build > build_output.txt
+  if ! bundle exec build build > build_output.txt; then
+    echo "Build failed. See build_output.txt"
+    exit 1
+  fi
   git add build_output.txt
   git add legislative/* executive/*
   if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then

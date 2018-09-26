@@ -54,7 +54,12 @@ while true; do
     bundle exec generate_executive_index > executive/index-warnings.txt
     git add executive/index-warnings.txt executive/index-query-used.rq
     if [ "$(git status executive/index* --porcelain)" ]; then
-      git commit -a -m "Refresh executive index from Wikidata$PRE_POST_UPDATE"
+
+      git commit -a -F- <<MSG
+Refresh executive index from Wikidata$PRE_POST_UPDATE
+
+$(git show HEAD:executive/index.json | ../compare-branch-index.py executive executive/index.json)
+MSG
     fi
   fi
   
@@ -63,7 +68,11 @@ while true; do
     bundle exec generate_legislative_index > legislative/index-warnings.txt
     git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq
     if [ "$(git status legislative/index* --porcelain)" ]; then
-      git commit -a -m "Refresh legislative index from Wikidata$PRE_POST_UPDATE"
+      git commit -a -F- <<MSG
+Refresh legislative index from Wikidata$PRE_POST_UPDATE
+
+$(git show HEAD:legislative/index.json | ../compare-branch-index.py legislative legislative/index.json)
+MSG
     fi
   fi
   
@@ -90,7 +99,10 @@ while true; do
   fi
   
   rm -f {legislative,executive}/*/*/popolo-m17n.json
-  bundle exec build build > build_output.txt
+  if ! bundle exec build build > build_output.txt; then
+    echo "Build failed. See build_output.txt"
+    exit 1
+  fi
   git add build_output.txt
   git add legislative/* executive/*
   if [ "$(git status legislative executive --porcelain | grep '^ D')" ]; then

@@ -26,6 +26,12 @@ then
     exit 1
 fi
 
+if ! python -c "import fiona" >/dev/null 2>&1
+then
+    echo "fiona wasn't found in your Python environment"
+    exit 1
+fi
+
 if [ -d boundaries/build ]; then
   BOUNDARIES=boundaries/build
 else

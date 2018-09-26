@@ -105,6 +105,9 @@ while true; do
   if [ -e $BOUNDARIES/position-data.json ]; then
     git add $BOUNDARIES/position-data.json
   fi
+  if bundle exec build check > build-check.txt; then
+    git add build-check.txt
+  fi
   if [ "$(git status --porcelain)" ]; then
     git commit -a -m "Rebuild using new Wikidata data$PRE_POST_UPDATE"
   fi

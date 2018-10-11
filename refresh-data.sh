@@ -20,9 +20,15 @@ if [ "$(git status --porcelain)" ]; then
    exit 1
 fi
 
-if ! command -v jq
+if ! command -v jq >/dev/null 2>&1
 then
     echo "jq was not found on your PATH"
+    exit 1
+fi
+
+if ! python -c "import fiona" >/dev/null 2>&1
+then
+    echo "fiona wasn't found in your Python environment"
     exit 1
 fi
 
@@ -43,13 +49,13 @@ while true; do
   if [ "$HAS_BUNDLE_UPDATED" = "0" ]; then
     # Make sure the right versions of dependencies are installed for this
     # repository
-    bundle install
+    bundle install >/dev/null 2>&1
     PRE_POST_UPDATE=""
   else
     PRE_POST_UPDATE=" (post-\`bundle update\`)"
   fi
 
-  if ! jq -e '.hand_maintained_files | contains(["executive/index.json"])' < config.json 2>&1 > /dev/null
+  if ! jq -e '.hand_maintained_files // [] | contains(["executive/index.json"])' < config.json > /dev/null
   then
     bundle exec generate_executive_index > executive/index-warnings.txt
     git add executive/index-warnings.txt executive/index-query-used.rq
@@ -63,7 +69,7 @@ MSG
     fi
   fi
   
-  if ! jq -e '.hand_maintained_files | contains(["legislative/index.json"])' < config.json 2>&1 > /dev/null
+  if ! jq -e '.hand_maintained_files // [] | contains(["legislative/index.json"])' < config.json > /dev/null
   then
     bundle exec generate_legislative_index > legislative/index-warnings.txt
     git add legislative/index-warnings.txt legislative/index-query-used.rq legislative/index-terms-query-used.rq
@@ -111,11 +117,14 @@ MSG
   if [ -e $BOUNDARIES/position-data.json ]; then
     git add $BOUNDARIES/position-data.json
   fi
+  if bundle exec build check > build-check.txt; then
+    git add build-check.txt
+  fi
   if [ "$(git status --porcelain)" ]; then
     git commit -a -m "Rebuild using new Wikidata data$PRE_POST_UPDATE"
   fi
   
-  bundle update
+  bundle update >/dev/null 2>&1
   if [ "$(git status Gemfile.lock --porcelain)" ]; then
     git commit Gemfile.lock -m 'Update Gemfile.lock to most recent commons-builder'
     HAS_BUNDLE_UPDATED=1
